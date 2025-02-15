@@ -4,7 +4,7 @@ go 1.23.2
 
 require (
 	github.com/joho/godotenv v1.5.1
-	github.com/labstack/echo/v5 v5.0.0-20230722203903-ec5b858dab61
+	github.com/labstack/echo/v5 c44f6283f02a
 	github.com/pocketbase/pocketbase v0.22.21
 )
 
