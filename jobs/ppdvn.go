@@ -38,11 +38,6 @@ func GetLatestRegistries(app *pocketbase.PocketBase) {
 
 func insert(app *pocketbase.PocketBase, registries []models.Registry) error {
 	for _, registry := range registries {
-		if _, err := models.FindRegistryByConfirmationId(app.DB(), registry.ConfirmationId); err == nil {
-			app.Logger().Info("Something already exists in database, stopping job...")
-			return nil
-		}
-
 		if err := models.AddRegistry(app.DB(), &registry); err != nil {
 			app.Logger().Error("An error occurred while inserting", "error", err)
 			return err
@@ -107,7 +102,7 @@ func parseTable(e *colly.HTMLElement) ([]models.Registry, error) {
 func getLastPage(app *pocketbase.PocketBase) (int, error) {
 	var page int
 
-	c := colly.NewCollector()
+	c := colly.NewCollector(colly.Async(true))
 
 	c.OnHTML(".pagination ul li:last-child a[href]", func(e *colly.HTMLElement) {
 		href := e.Attr("href")
@@ -129,7 +124,18 @@ func getLastPage(app *pocketbase.PocketBase) (int, error) {
 		app.Logger().Info("Getting registries", "url", r.URL)
 	})
 
+	c.OnResponse(func(r *colly.Response) {
+		app.Logger().Debug("Got registries response", "response", r)
+	})
+
+	c.OnError(func(r *colly.Response, e error) {
+		app.Logger().Warn("Retrying getting registries", "url", r.Request.URL, "error", e)
+		r.Request.Retry()
+	})
+
 	c.Visit("https://ppdvn.gov.vn/web/guest/ke-hoach-xuat-ban")
+
+	c.Wait()
 
 	return page, nil
 }
