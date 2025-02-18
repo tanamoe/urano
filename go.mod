@@ -1,4 +1,4 @@
-module tana.moe/urano
+module github.com/tanamoe/urano
 
 go 1.23
 
