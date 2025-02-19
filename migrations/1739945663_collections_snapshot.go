@@ -927,7 +927,9 @@ func init() {
 					}
 				],
 				"id": "pbc_3944773504",
-				"indexes": [],
+				"indexes": [
+					"CREATE UNIQUE INDEX ` + "`" + `idx_ucequ4WwsG` + "`" + ` ON ` + "`" + `registries` + "`" + ` (\n  ` + "`" + `isbn` + "`" + `,\n  ` + "`" + `title` + "`" + `,\n  ` + "`" + `confirmation_id` + "`" + `\n)"
+				],
 				"listRule": null,
 				"name": "registries",
 				"system": false,
