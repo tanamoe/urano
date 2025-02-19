@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"time"
 
 	"github.com/gocolly/colly/v2"
 	"github.com/pocketbase/pocketbase"
@@ -36,6 +37,19 @@ func GetLatestRegistries(app *pocketbase.PocketBase) {
 	}
 }
 
+func GetAllRegistries(app *pocketbase.PocketBase) {
+	err := getAllTable(app, func(registries []models.Registry) {
+		err := insert(app, registries)
+		if err != nil {
+			app.Logger().Error("Error while inserting registries", "registries", registries, "error", err)
+		}
+	})
+
+	if err != nil {
+		app.Logger().Error("Error while getting all registries", "error", err)
+	}
+}
+
 func insert(app *pocketbase.PocketBase, registries []models.Registry) error {
 	for _, registry := range registries {
 		if err := models.AddRegistry(app.DB(), &registry); err != nil {
@@ -43,6 +57,41 @@ func insert(app *pocketbase.PocketBase, registries []models.Registry) error {
 			return err
 		}
 	}
+
+	return nil
+}
+
+func getAllTable(app *pocketbase.PocketBase, invoke func(registries []models.Registry)) error {
+	c := colly.NewCollector(colly.Async(true))
+
+	c.Limit(&colly.LimitRule{DomainGlob: "*", Parallelism: 3, RandomDelay: 10 * time.Second})
+
+	c.OnHTML("div#list_data_return tbody", func(e *colly.HTMLElement) {
+		results, err := parseTable(e)
+
+		if err != nil {
+			return
+		}
+
+		invoke(results)
+	})
+
+	c.OnHTML(".pagination a[href]", func(e *colly.HTMLElement) {
+		e.Request.Visit(e.Attr("href"))
+	})
+
+	c.OnRequest(func(r *colly.Request) {
+		app.Logger().Info("Getting all registries", "url", r.URL)
+	})
+
+	c.OnError(func(r *colly.Response, err error) {
+		app.Logger().Warn("Retrying getting request", "url", r.Request.URL, "error", err)
+		r.Request.Retry()
+	})
+
+	c.Visit("https://ppdvn.gov.vn/web/guest/ke-hoach-xuat-ban?p=1")
+
+	c.Wait()
 
 	return nil
 }
@@ -62,6 +111,11 @@ func getTable(app *pocketbase.PocketBase, page int, invoke func(registries []mod
 
 	c.OnRequest(func(r *colly.Request) {
 		app.Logger().Info("Getting paged registries", "url", r.URL)
+	})
+
+	c.OnError(func(r *colly.Response, err error) {
+		app.Logger().Warn("Retrying getting request", "url", r.Request.URL, "error", err)
+		r.Request.Retry()
 	})
 
 	c.Visit(fmt.Sprintf("https://ppdvn.gov.vn/web/guest/ke-hoach-xuat-ban?p=%d", page))
@@ -129,7 +183,7 @@ func getLastPage(app *pocketbase.PocketBase) (int, error) {
 	})
 
 	c.OnError(func(r *colly.Response, e error) {
-		app.Logger().Warn("Retrying getting registries", "url", r.Request.URL, "error", e)
+		app.Logger().Warn("Retrying getting page", "url", r.Request.URL, "error", e)
 		r.Request.Retry()
 	})
 
