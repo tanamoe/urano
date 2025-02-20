@@ -23,8 +23,14 @@ func main() {
 		Automigrate: isGoRun,
 	})
 
-	app.Cron().MustAdd("getLatestRegistries", "0 0 1 1 0", func() {
+	// every hour at :05
+	app.Cron().MustAdd("getLatestRegistries", "5 */1 * * *", func() {
 		jobs.GetLatestRegistries(app)
+	})
+
+	// every friday at 00:05
+	app.Cron().MustAdd("getAllRegistries", "5 0 * * 5", func() {
+		jobs.GetAllRegistries(app)
 	})
 
 	if err := app.Start(); err != nil {

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
-	"time"
 
 	"github.com/gocolly/colly/v2"
 	"github.com/pocketbase/pocketbase"
@@ -19,6 +18,7 @@ func GetLatestRegistries(app *pocketbase.PocketBase) {
 		return
 	}
 
+check:
 	for i := 1; i <= lastPage; i++ {
 		var registries []models.Registry
 
@@ -31,67 +31,42 @@ func GetLatestRegistries(app *pocketbase.PocketBase) {
 			return
 		}
 
-		if err := insert(app, registries); err != nil {
-			break
+		for _, registry := range registries {
+			if err := insert(app, registry); err != nil {
+				// break on error (e.g. unique constraints matched")
+				break check
+			}
 		}
 	}
 }
 
 func GetAllRegistries(app *pocketbase.PocketBase) {
-	err := getAllTable(app, func(registries []models.Registry) {
-		err := insert(app, registries)
-		if err != nil {
-			app.Logger().Error("Error while inserting registries", "registries", registries, "error", err)
-		}
-	})
+	lastPage, err := getLastPage(app)
 
 	if err != nil {
-		app.Logger().Error("Error while getting all registries", "error", err)
-	}
-}
-
-func insert(app *pocketbase.PocketBase, registries []models.Registry) error {
-	for _, registry := range registries {
-		if err := models.AddRegistry(app.DB(), &registry); err != nil {
-			app.Logger().Error("An error occurred while inserting", "error", err)
-			return err
-		}
+		return
 	}
 
-	return nil
-}
-
-func getAllTable(app *pocketbase.PocketBase, invoke func(registries []models.Registry)) error {
-	c := colly.NewCollector(colly.Async(true))
-
-	c.Limit(&colly.LimitRule{DomainGlob: "*", Parallelism: 3, RandomDelay: 10 * time.Second})
-
-	c.OnHTML("div#list_data_return tbody", func(e *colly.HTMLElement) {
-		results, err := parseTable(e)
+	for i := 1; i <= lastPage; i++ {
+		err := getTable(app, i, func(registries []models.Registry) {
+			for _, registry := range registries {
+				models.AddRegistry(app.DB(), &registry)
+			}
+		})
 
 		if err != nil {
+			app.Logger().Error("Cannot get table from PPDVN", "error", err)
 			return
 		}
 
-		invoke(results)
-	})
+	}
+}
 
-	c.OnHTML(".pagination a[href]", func(e *colly.HTMLElement) {
-		e.Request.Visit(e.Attr("href"))
-	})
-
-	c.OnRequest(func(r *colly.Request) {
-		app.Logger().Info("Getting all registries", "url", r.URL)
-	})
-
-	c.OnError(func(r *colly.Response, err error) {
-		app.Logger().Warn("Retrying getting request", "url", r.Request.URL, "error", err)
-		r.Request.Retry()
-	})
-
-	c.Visit("https://ppdvn.gov.vn/web/guest/ke-hoach-xuat-ban?p=1")
-
-	c.Wait()
+func insert(app *pocketbase.PocketBase, registry models.Registry) error {
+	if err := models.AddRegistry(app.DB(), &registry); err != nil {
+		app.Logger().Error("An error occurred while inserting", "error", err)
+		return err
+	}
 
 	return nil
 }
