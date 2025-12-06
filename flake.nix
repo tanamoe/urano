@@ -30,6 +30,8 @@
           # goimports, godoc, etc.
           gotools
 
+          # linting
+          zizmor
           # https://github.com/golangci/golangci-lint
           golangci-lint
 
