@@ -1,4 +1,4 @@
-name: Workflow changes
+name: zizmor
 on:
   push:
     paths:
