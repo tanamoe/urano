@@ -1,15 +1,9 @@
-name: Buf
+name: Buf (release)
 on:
   push:
+    branches:
+      - main
     # https://github.com/bufbuild/buf-action/blob/8f4a1456a0ab6a1eb80ba68e53832e6fcfacc16c/examples/push-on-changes/buf-ci.yaml
-    paths:
-      - '**.proto'
-      - '**/buf.yaml'
-      - '**/buf.lock'
-      - '**/buf.md'
-      - '**/README.md'
-      - '**/LICENSE'
-  pull_request:
     paths:
       - '**.proto'
       - '**/buf.yaml'

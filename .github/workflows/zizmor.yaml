@@ -1,4 +1,4 @@
-name: zizmor
+name: zizmor (CI)
 on:
   push:
     paths:
@@ -8,7 +8,6 @@ on:
       - '.github/workflows/**'
 jobs:
   zizmor:
-    name: zizmor
     runs-on: ubuntu-latest
     permissions:
       security-events: write
