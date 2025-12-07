@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package aggregate.v1;
+package urano.v1beta1;
 
 service AggregateService {
   rpc GetFahasaProduct(GetFahasaProductRequest) returns (GetFahasaProductResponse) {}
