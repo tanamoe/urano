@@ -3,6 +3,7 @@ package fahasa
 import (
 	"context"
 	"encoding/json"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -59,7 +60,11 @@ func (c *client) Product(ctx context.Context, productID int64) (*Product, error)
 	if err != nil {
 		return nil, err
 	}
-	defer response.Body.Close()
+	defer func() {
+		if err := response.Body.Close(); err != nil {
+			slog.Warn("cannot close response body", "error", err)
+		}
+	}()
 
 	var product Product
 	if err := json.NewDecoder(response.Body).Decode(&product); err != nil {

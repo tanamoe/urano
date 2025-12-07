@@ -21,7 +21,8 @@ func TestProduct(t *testing.T) {
 	assert.NoError(err)
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Write(rawJSON)
+		_, err := w.Write(rawJSON)
+		assert.NoError(err)
 	}))
 
 	client := NewClient(WithDomain(srv.URL))
