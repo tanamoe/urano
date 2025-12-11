@@ -1,14 +1,10 @@
-name: Workflow changes
+name: zizmor (CI)
 on:
-  push:
-    paths:
-      - '.github/workflows/**'
   pull_request:
     paths:
       - '.github/workflows/**'
 jobs:
   zizmor:
-    name: zizmor
     runs-on: ubuntu-latest
     permissions:
       security-events: write
