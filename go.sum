@@ -2,6 +2,8 @@ buf.build/gen/go/tanamoe/urano/connectrpc/go v1.19.1-20251207044320-f335e2e52d3b
 buf.build/gen/go/tanamoe/urano/connectrpc/go v1.19.1-20251207044320-f335e2e52d3b.2/go.mod h1:VbZVFqt7GINu4W0TmDrFESea6UFI2sbS108U/2OKQ1o=
 buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.10-20251207044320-f335e2e52d3b.1 h1:G/mfl/+WZbezyWmbZVY1uAMxqDt12vYp3IEDDkxC7jA=
 buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.10-20251207044320-f335e2e52d3b.1/go.mod h1:n+693DxEsPmb3MZfQEmfYU7dTR+L4zUjB7fc1y/OrzQ=
+buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.11-20251207044320-f335e2e52d3b.1 h1:QOG0gRdCyop/ZxH1OZNh3UM9SFk8mBjr29h19i0K+Sg=
+buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.11-20251207044320-f335e2e52d3b.1/go.mod h1:z9I0KyyIJivi6u27FGLCaGjI4D9Vot9yE5p2cq6HIyk=
 connectrpc.com/connect v1.19.1 h1:R5M57z05+90EfEvCY1b7hBxDVOUl45PrtXtAV2fOC14=
 connectrpc.com/connect v1.19.1/go.mod h1:tN20fjdGlewnSFeZxLKb0xwIZ6ozc3OQs2hTXy4du9w=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
@@ -14,6 +16,8 @@ github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
 google.golang.org/protobuf v1.36.10 h1:AYd7cD/uASjIL6Q9LiTjz8JLcrh/88q5UObnmY3aOOE=
 google.golang.org/protobuf v1.36.10/go.mod h1:HTf+CrKn2C3g5S8VImy6tdcUvCska2kB7j23XfzDpco=
+google.golang.org/protobuf v1.36.11 h1:fV6ZwhNocDyBLK0dj+fg8ektcVegBBuEolpbTQyBNVE=
+google.golang.org/protobuf v1.36.11/go.mod h1:HTf+CrKn2C3g5S8VImy6tdcUvCska2kB7j23XfzDpco=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
