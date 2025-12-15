@@ -1,6 +1,8 @@
 syntax = "proto3";
 
-package urano.v1beta1;
+package urano.api.v1beta1;
+
+import "urano/types/v1beta1/size.proto";
 
 service AggregateService {
   rpc GetFahasaProduct(GetFahasaProductRequest) returns (GetFahasaProductResponse) {}
@@ -10,6 +12,13 @@ service AggregateService {
 
 message AggregateProduct {
   int64 price = 1;
+  string sku = 2;
+  string isbn = 3;
+  double weight = 4;
+  urano.types.v1beta1.Size size = 5;
+  uint32 page_count = 6;
+  // 7-19 left for future metadata needs
+  repeated string images = 20;
 }
 
 message GetFahasaProductRequest {
