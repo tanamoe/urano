@@ -6,7 +6,12 @@ import "urano/types/v1beta1/size.proto";
 
 service AggregateService {
   rpc GetFahasaProduct(GetFahasaProductRequest) returns (GetFahasaProductResponse) {}
+
+  // Paginated endpoint, https://google.aip.dev/158
+  rpc ListFahasaProduct(ListFahasaProductRequest) returns (ListFahasaProductResponse) {}
+
   rpc GetAMAKProduct(GetAMAKProductRequest) returns (GetAMAKProductResponse) {}
+
   rpc GetNXBTreProduct(GetNXBTreProductRequest) returns (GetNXBTreProductResponse) {}
 }
 
@@ -27,6 +32,35 @@ message GetFahasaProductRequest {
 
 message GetFahasaProductResponse {
   AggregateProduct product = 1;
+}
+
+// The request structure for listing products from Fahasa.
+message ListFahasaProductRequest {
+  // The category that contains the products.
+  int64 category_id = 1;
+
+  // The maximum number of products to return.
+  int32 page_size = 5;
+
+  // A token received from previous call, used to retrieve subsequent page.
+  // This token when used must be called with the same prior `page_size`
+  // parameters, or it will be invalid.
+  //
+  // If empty, start from the beginning.
+  string page_token = 6;
+
+  // The number of products to skip, calulated from `page_token`.
+  int32 skip = 7;
+}
+
+// The response structure from Fahasa product listing.
+message ListFahasaProductResponse {
+  // The products match provided filter(s).
+  repeated AggregateProduct products = 1;
+
+  // A token that can be used to retrieve the next page.
+  // If there is no `page_token`, there are no subsequent page.
+  string page_token = 2;
 }
 
 message GetAMAKProductRequest {
