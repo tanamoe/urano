@@ -2,32 +2,115 @@ package v1beta1
 
 import (
 	"context"
+	"log/slog"
+	"strconv"
+	"strings"
 
-	"buf.build/gen/go/tanamoe/urano/connectrpc/go/urano/v1beta1/uranov1beta1connect"
-	uranov1beta1 "buf.build/gen/go/tanamoe/urano/protocolbuffers/go/urano/v1beta1"
+	apiconnect "buf.build/gen/go/tanamoe/urano/connectrpc/go/urano/api/v1beta1/apiv1beta1connect"
+	api "buf.build/gen/go/tanamoe/urano/protocolbuffers/go/urano/api/v1beta1"
+	types "buf.build/gen/go/tanamoe/urano/protocolbuffers/go/urano/types/v1beta1"
 	"connectrpc.com/connect"
 	"github.com/tanamoe/urano/providers/fahasa"
 )
 
-var _ uranov1beta1connect.AggregateServiceHandler = (*AggregateServer)(nil)
+var _ apiconnect.AggregateServiceHandler = (*aggregate)(nil)
 
-type AggregateServer struct {
-	uranov1beta1connect.UnimplementedAggregateServiceHandler
+type aggregate struct {
+	apiconnect.UnimplementedAggregateServiceHandler
 
 	fahasaClient fahasa.Client
 }
 
-func (s *AggregateServer) GetFahasaProduct(
+func NewAggregateServer() apiconnect.AggregateServiceHandler {
+	fahasaClient := fahasa.NewClient()
+	return &aggregate{
+		fahasaClient: fahasaClient,
+	}
+}
+
+func (s *aggregate) GetFahasaProduct(
 	ctx context.Context,
-	req *connect.Request[uranov1beta1.GetFahasaProductRequest],
-) (*connect.Response[uranov1beta1.GetFahasaProductResponse], error) {
+	req *connect.Request[api.GetFahasaProductRequest],
+) (*connect.Response[api.GetFahasaProductResponse], error) {
 	product, err := s.fahasaClient.Product(ctx, req.Msg.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	res := &uranov1beta1.GetFahasaProductResponse{Product: &uranov1beta1.AggregateProduct{
-		Price: product.Price,
+	x, y, z, err := normaliseSize(product.Size)
+	if err != nil {
+		return nil, err
+	}
+
+	images := make([]string, 0, len(product.MediaGallery.Images))
+	for _, image := range product.MediaGallery.Images {
+		images = append(images, image.File)
+	}
+
+	res := &api.GetFahasaProductResponse{Product: &api.AggregateProduct{
+		Price:  product.Price,
+		Sku:    product.SKU,
+		Weight: float64(product.Weight),
+		Size: &types.Size{
+			X: x,
+			Y: y,
+			Z: z,
+		},
+		PageCount: uint32(product.PageCount),
+		Images:    images,
 	}}
 	return connect.NewResponse(res), nil
+}
+
+func (s *aggregate) ListFahasaProduct(
+	ctx context.Context,
+	req *connect.Request[api.ListFahasaProductRequest],
+) (*connect.Response[api.ListFahasaProductResponse], error) {
+	product, err := s.fahasaClient.ListByCategory(ctx, fahasa.ListByCategoryParams{
+		CategoryID: req.Msg.CategoryId,
+		PageSize:   12,
+		Page:       1,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	products := make([]*api.AggregateProduct, 0, len(product.ProductList))
+	for _, product := range product.ProductList {
+		products = append(products, &api.AggregateProduct{
+			Images: []string{product.ImageSrc},
+		})
+	}
+
+	res := &api.ListFahasaProductResponse{Products: products}
+	return connect.NewResponse(res), nil
+}
+
+func normaliseSize(s string) (x, y, z float64, err error) {
+	sizeNum := strings.TrimSuffix(s, "cm")
+	sizeSeparator := strings.ReplaceAll(sizeNum, ",", ".")
+	sizeNormalized := strings.ReplaceAll(sizeSeparator, " ", "")
+	sizes := strings.Split(sizeNormalized, "x")
+
+	switch len(sizes) {
+	case 3:
+		if z, err = strconv.ParseFloat(sizes[2], 64); err != nil {
+			slog.Error("cannot parse z", "error", err)
+			return
+		}
+		fallthrough
+	case 2:
+		if y, err = strconv.ParseFloat(sizes[1], 64); err != nil {
+			slog.Error("cannot parse y", "error", err)
+			return
+		}
+		fallthrough
+	case 1:
+		if x, err = strconv.ParseFloat(sizes[0], 64); err != nil {
+			slog.Error("cannot parse x", "error", err)
+			return
+		}
+	}
+
+	return
 }
