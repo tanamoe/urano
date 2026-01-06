@@ -48,9 +48,11 @@ func (s *aggregate) GetFahasaProduct(
 	}
 
 	res := &api.GetFahasaProductResponse{Product: &api.AggregateProduct{
-		Price:  product.Price,
-		Sku:    product.SKU,
-		Weight: float64(product.Weight),
+		Name:        product.Name,
+		Description: product.Description,
+		Price:       product.Price,
+		Sku:         product.SKU,
+		Weight:      float64(product.Weight),
 		Size: &types.Size{
 			X: x,
 			Y: y,
@@ -79,6 +81,7 @@ func (s *aggregate) ListFahasaProduct(
 	for _, product := range product.ProductList {
 		price, _ := normalisePrice(product.ProductPrice)
 		products = append(products, &api.AggregateProduct{
+			Name:   product.ProductName,
 			Price:  price,
 			Images: []string{product.ImageSrc},
 		})

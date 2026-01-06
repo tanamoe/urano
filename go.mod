@@ -3,8 +3,8 @@ module github.com/tanamoe/urano
 go 1.24.0
 
 require (
-	buf.build/gen/go/tanamoe/urano/connectrpc/go v1.19.1-20251220024416-b16b3d198942.2
-	buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.11-20251220024416-b16b3d198942.1
+	buf.build/gen/go/tanamoe/urano/connectrpc/go v1.19.1-20260106035158-374941acae54.2
+	buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.11-20260106035158-374941acae54.1
 	connectrpc.com/connect v1.19.1
 	connectrpc.com/cors v0.1.0
 	github.com/rs/cors v1.11.1
