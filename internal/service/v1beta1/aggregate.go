@@ -77,7 +77,9 @@ func (s *aggregate) ListFahasaProduct(
 
 	products := make([]*api.AggregateProduct, 0, len(product.ProductList))
 	for _, product := range product.ProductList {
+		price, _ := normalisePrice(product.ProductPrice)
 		products = append(products, &api.AggregateProduct{
+			Price:  price,
 			Images: []string{product.ImageSrc},
 		})
 	}
@@ -86,11 +88,16 @@ func (s *aggregate) ListFahasaProduct(
 	return connect.NewResponse(res), nil
 }
 
+func normalisePrice(s string) (int64, error) {
+	normalised := strings.ReplaceAll(s, ".", "")
+	return strconv.ParseInt(normalised, 10, 64)
+}
+
 func normaliseSize(s string) (x, y, z float64, err error) {
 	sizeNum := strings.TrimSuffix(s, "cm")
 	sizeSeparator := strings.ReplaceAll(sizeNum, ",", ".")
-	sizeNormalized := strings.ReplaceAll(sizeSeparator, " ", "")
-	sizes := strings.Split(sizeNormalized, "x")
+	sizeNormalised := strings.ReplaceAll(sizeSeparator, " ", "")
+	sizes := strings.Split(sizeNormalised, "x")
 
 	switch len(sizes) {
 	case 3:

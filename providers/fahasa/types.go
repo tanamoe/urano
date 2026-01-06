@@ -175,21 +175,21 @@ type CategoryProducts struct {
 }
 
 type CategoryProduct struct {
-	TypeID            string      `json:"type_id"`
-	Type              string      `json:"type"`
-	ProductID         int64       `json:"product_id,string"`
-	ProductName       string      `json:"product_name"`
-	ProductFinalPrice string      `json:"product_finalprice"`
-	ProductPrice      string      `json:"product_price"`
-	RatingHTML        string      `json:"rating_html"`
-	SoonRelease       string      `json:"soon_release"`
-	ProductURL        string      `json:"product_url"`
-	ImageSrc          string      `json:"image_src"`
-	Discount          int         `json:"discount"`
-	DiscountLabelHTML string      `json:"discount_label_html"`
-	Episode           *string     `json:"episode"` // Pointer to handle nulls
-	Label             string      `json:"label"`
-	FrameImage        interface{} `json:"frame_image"`
+	TypeID            string  `json:"type_id"`
+	Type              string  `json:"type"`
+	ProductID         int64   `json:"product_id,string"`
+	ProductName       string  `json:"product_name"`
+	ProductFinalPrice string  `json:"product_finalprice"`
+	ProductPrice      string  `json:"product_price"`
+	RatingHTML        string  `json:"rating_html"`
+	SoonRelease       string  `json:"soon_release"`
+	ProductURL        string  `json:"product_url"`
+	ImageSrc          string  `json:"image_src"`
+	Discount          int     `json:"discount"`
+	DiscountLabelHTML string  `json:"discount_label_html"`
+	Episode           *string `json:"episode"` // Pointer to handle nulls
+	Label             string  `json:"label"`
+	FrameImage        any     `json:"frame_image"`
 }
 
 // filters

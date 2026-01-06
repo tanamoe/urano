@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"log/slog"
 	"net/http"
 	"net/url"
@@ -34,8 +33,6 @@ func (c *client) ListByCategory(ctx context.Context, params ListByCategoryParams
 	queries.Add("page", strconv.FormatInt(int64(params.Page), 10))
 
 	url.RawQuery = queries.Encode()
-
-	fmt.Println(url.String())
 
 	request, err := http.NewRequestWithContext(ctx, http.MethodGet, url.String(), nil)
 	if err != nil {
