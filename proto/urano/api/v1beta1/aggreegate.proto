@@ -16,13 +16,15 @@ service AggregateService {
 }
 
 message AggregateProduct {
-  int64 price = 1;
-  string sku = 2;
-  string isbn = 3;
-  double weight = 4;
-  urano.types.v1beta1.Size size = 5;
-  uint32 page_count = 6;
-  // 7-19 left for future metadata needs
+  string name = 1;
+  string description = 2;
+  int64 price = 5;
+  string sku = 6;
+  string isbn = 7;
+  double weight = 8;
+  urano.types.v1beta1.Size size = 9;
+  uint32 page_count = 10;
+  // 11-19 left for future metadata needs
   repeated string images = 20;
 }
 
