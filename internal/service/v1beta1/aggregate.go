@@ -48,6 +48,7 @@ func (s *aggregate) GetFahasaProduct(
 	}
 
 	res := &api.GetFahasaProductResponse{Product: &api.AggregateProduct{
+		Id:          strconv.FormatInt(product.EntityID, 10),
 		Name:        product.Name,
 		Description: product.Description,
 		Price:       product.Price,
@@ -70,8 +71,8 @@ func (s *aggregate) ListFahasaProduct(
 ) (*connect.Response[api.ListFahasaProductResponse], error) {
 	product, err := s.fahasaClient.ListByCategory(ctx, fahasa.ListByCategoryParams{
 		CategoryID: req.Msg.CategoryId,
-		PageSize:   12,
-		Page:       1,
+		PageSize:   req.Msg.PageSize,
+		Page:       req.Msg.Skip,
 	})
 	if err != nil {
 		return nil, err
@@ -81,6 +82,7 @@ func (s *aggregate) ListFahasaProduct(
 	for _, product := range product.ProductList {
 		price, _ := normalisePrice(product.ProductPrice)
 		products = append(products, &api.AggregateProduct{
+			Id:     strconv.FormatInt(product.ProductID, 10),
 			Name:   product.ProductName,
 			Price:  price,
 			Images: []string{product.ImageSrc},
