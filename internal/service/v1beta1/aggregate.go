@@ -53,7 +53,7 @@ func (s *aggregate) GetFahasaProduct(
 		Description: product.Description,
 		Price:       product.Price,
 		Sku:         product.SKU,
-		Weight:      float64(product.Weight),
+		Weight:      product.Weight,
 		Size: &types.Size{
 			X: x,
 			Y: y,

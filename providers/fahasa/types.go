@@ -53,7 +53,7 @@ type Product struct {
 	Supplier                string               `json:"supplier"`
 	SupplierID              string               `json:"supplier_id"`
 	Translator              string               `json:"translator"`
-	Weight                  int                  `json:"weight"`
+	Weight                  float64              `json:"weight"`
 	CountryOfManufacture    *string              `json:"country_of_manufacture"`
 	TaxClassID              *int                 `json:"tax_class_id"`
 	WeightType              *string              `json:"weight_type"`
