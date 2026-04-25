@@ -14,6 +14,7 @@ const (
 type Client interface {
 	Product(ctx context.Context, productID int64) (*Product, error)
 	ListByCategory(ctx context.Context, params ListByCategoryParams) (*CategoryProducts, error)
+	Search(ctx context.Context, query string) (*SearchResponse, error)
 }
 
 type ListByCategoryParams struct {

@@ -1,5 +1,72 @@
 package fahasa
 
+// SearchResponse represents the root structure of the search.json file.
+type SearchResponse struct {
+	Meta    Meta     `json:"meta"`
+	Results []Result `json:"results"`
+}
+
+// Meta contains pagination and engine metadata.
+type Meta struct {
+	Alerts    []interface{} `json:"alerts"`
+	Warnings  []interface{} `json:"warnings"`
+	Precision int           `json:"precision"`
+	Engine    Engine        `json:"engine"`
+	Page      Page          `json:"page"`
+	RequestID string        `json:"request_id"`
+}
+
+type Engine struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type Page struct {
+	Current      int `json:"current"`
+	TotalPages   int `json:"total_pages"`
+	TotalResults int `json:"total_results"`
+	Size         int `json:"size"`
+}
+
+// Result represents an individual search item (Series or Volume).
+type Result struct {
+	ID             RawString  `json:"id"`
+	Title          RawString  `json:"title"`
+	SKU            RawString  `json:"sku"`
+	Link           RawString  `json:"link"`
+	Thumbnail      RawString  `json:"thumbnail"`
+	TypeID         RawString  `json:"type_id"`
+	Price          RawFloat   `json:"price"`
+	OriginalPrice  RawFloat   `json:"original_price"`
+	Discount       RawFloat   `json:"discount"`
+	StockStatus    RawFloat   `json:"stock_status"`
+	NumOrdersMonth RawFloat   `json:"num_orders_month"`
+	SeriesID       RawFloat   `json:"series_id"`
+	DisplayEpisode RawString  `json:"display_episode"`
+	Episode        RawFloat   `json:"episode,omitempty"`
+	Subscribes     RawFloat   `json:"subscribes,omitempty"`
+	RatingSummary  RawFloat   `json:"rating_summary"`
+	RatingCount    RawFloat   `json:"rating_count"`
+	SoonRelease    RawFloat   `json:"soon_release,omitempty"`
+	Meta           ResultMeta `json:"_meta"`
+}
+
+// Helper structs for the "raw" nested values
+type RawString struct {
+	Raw string `json:"raw"`
+}
+
+type RawFloat struct {
+	Raw float64 `json:"raw"`
+}
+
+// ResultMeta contains the search engine scoring info.
+type ResultMeta struct {
+	ID     string  `json:"id"`
+	Engine string  `json:"engine"`
+	Score  float64 `json:"score"`
+}
+
 type Product struct {
 	EntityID                int64                `json:"entity_id"`
 	EntityIDSub             int64                `json:"entity_id_sub"`

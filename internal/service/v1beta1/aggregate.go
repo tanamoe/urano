@@ -93,6 +93,29 @@ func (s *aggregate) ListFahasaProduct(
 	return connect.NewResponse(res), nil
 }
 
+func (s *aggregate) SearchFahasaProduct(
+	ctx context.Context,
+	req *connect.Request[api.SearchFahasaProductRequest],
+) (*connect.Response[api.SearchFahasaProductResponse], error) {
+	product, err := s.fahasaClient.Search(ctx, req.Msg.Query)
+	if err != nil {
+		return nil, err
+	}
+
+	products := make([]*api.AggregateProduct, 0, len(product.Results))
+	for _, product := range product.Results {
+		products = append(products, &api.AggregateProduct{
+			Id:     product.ID.Raw,
+			Name:   product.Title.Raw,
+			Price:  int64(product.Price.Raw),
+			Images: []string{product.Thumbnail.Raw},
+		})
+	}
+
+	res := &api.SearchFahasaProductResponse{Products: products}
+	return connect.NewResponse(res), nil
+}
+
 func normalisePrice(s string) (int64, error) {
 	normalised := strings.ReplaceAll(s, ".", "")
 	return strconv.ParseInt(normalised, 10, 64)
