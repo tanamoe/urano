@@ -91,11 +91,18 @@ func parseTable(node *html.Node) ([]Registry, error) {
 	return registries, nil
 }
 
-func GetLastPage(ctx context.Context) (int, error) {
+func (c *client) GetLastPage(ctx context.Context, params ListParams) (int, error) {
+	q := url.Values{}
+	q.Add("p", strconv.Itoa(params.Page))
+	q.Add("query", params.Query)
+	q.Add("bat_dau", params.StartDate.Format(dateFormat))
+	q.Add("ket_thuc", params.EndDate.Format(dateFormat))
+
 	url := url.URL{
-		Scheme: "https",
-		Host:   Host,
-		Path:   RegistriesPath,
+		Scheme:   "https",
+		Host:     Host,
+		Path:     RegistriesPath,
+		RawQuery: q.Encode(),
 	}
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url.String(), nil)
@@ -103,7 +110,7 @@ func GetLastPage(ctx context.Context) (int, error) {
 		return 0, err
 	}
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return 0, err
 	}
@@ -115,6 +122,9 @@ func GetLastPage(ctx context.Context) (int, error) {
 	}
 
 	node := query(doc, ".pagination ul li:last-child a[href]")
+	if node == nil {
+		return 0, nil
+	}
 
 	href := getAttr(node, "href")
 	if href == nil {

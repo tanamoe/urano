@@ -8,6 +8,7 @@ import (
 
 type Client interface {
 	List(ctx context.Context, params ListParams) ([]Registry, error)
+	GetLastPage(ctx context.Context, params ListParams) (int, error)
 }
 
 type ListParams struct {
