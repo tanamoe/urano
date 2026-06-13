@@ -25,7 +25,8 @@ type ListByCategoryParams struct {
 }
 
 type client struct {
-	domain string
+	domain      string
+	searchToken string
 
 	httpClient *http.Client
 }
@@ -52,5 +53,12 @@ func NewClient(options ...clientOptions) Client {
 func WithDomain(domain string) clientOptions {
 	return func(client *client) {
 		client.domain = domain
+	}
+}
+
+// search token starts with search-
+func WithSearchToken(searchToken string) clientOptions {
+	return func(client *client) {
+		client.searchToken = searchToken
 	}
 }

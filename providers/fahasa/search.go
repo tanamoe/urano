@@ -24,7 +24,7 @@ func (c *client) Search(ctx context.Context, query string) (*SearchResponse, err
 	}
 
 	request.Header.Set("User-Agent", defaultUserAgent)
-	request.Header.Set("Authorization", "Bearer search-zs5622edvxg9bt9nb5y9m2oo")
+	request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.searchToken))
 	request.Header.Set("Content-Type", "application/json")
 
 	req, _ := httputil.DumpRequestOut(request, true)
