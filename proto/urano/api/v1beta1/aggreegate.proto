@@ -10,6 +10,9 @@ service AggregateService {
   // Paginated endpoint, https://google.aip.dev/158
   rpc ListFahasaProduct(ListFahasaProductRequest) returns (ListFahasaProductResponse) {}
 
+  // Paginated endpoint, https://google.aip.dev/158
+  rpc SearchFahasaProduct(SearchFahasaProductRequest) returns (SearchFahasaProductResponse) {}
+
   rpc GetAMAKProduct(GetAMAKProductRequest) returns (GetAMAKProductResponse) {}
 
   rpc GetNXBTreProduct(GetNXBTreProductRequest) returns (GetNXBTreProductResponse) {}
@@ -59,6 +62,30 @@ message ListFahasaProductRequest {
 
 // The response structure from Fahasa product listing.
 message ListFahasaProductResponse {
+  // The products match provided filter(s).
+  repeated AggregateProduct products = 1;
+
+  // A token that can be used to retrieve the next page.
+  // If there is no `page_token`, there are no subsequent page.
+  string page_token = 2;
+}
+
+message SearchFahasaProductRequest {
+  string query = 1;
+  FahasaProductFilter filter = 2;
+
+  int32 page_size = 5;
+
+  string page_token = 6;
+
+  int32 skip = 7;
+}
+
+message FahasaProductFilter {
+  int64 category_id = 1;
+}
+
+message SearchFahasaProductResponse {
   // The products match provided filter(s).
   repeated AggregateProduct products = 1;
 

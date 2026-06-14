@@ -2,24 +2,31 @@ package fahasa
 
 import (
 	"context"
-	"encoding/json"
-	"log/slog"
+	"crypto/tls"
 	"net/http"
-	"net/url"
-	"strconv"
 )
 
 const (
-	defaultDomain string = "https://rest.fahasa.com"
-	productURL    string = "/products/id/"
+	defaultDomain    = "https://rest.fahasa.com"
+	defaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
 )
 
 type Client interface {
 	Product(ctx context.Context, productID int64) (*Product, error)
+	ListByCategory(ctx context.Context, params ListByCategoryParams) (*CategoryProducts, error)
+	Search(ctx context.Context, query string) (*SearchResponse, error)
+}
+
+type ListByCategoryParams struct {
+	CategoryID int64
+
+	Page     int32
+	PageSize int32
 }
 
 type client struct {
-	domain string
+	domain      string
+	searchToken string
 
 	httpClient *http.Client
 }
@@ -28,8 +35,12 @@ type clientOptions = func(client *client)
 
 func NewClient(options ...clientOptions) Client {
 	client := &client{
-		domain:     defaultDomain,
-		httpClient: http.DefaultClient,
+		domain: defaultDomain,
+		httpClient: &http.Client{
+			Transport: &http.Transport{
+				TLSNextProto: map[string]func(string, *tls.Conn) http.RoundTripper{},
+			},
+		},
 	}
 
 	for _, option := range options {
@@ -45,31 +56,9 @@ func WithDomain(domain string) clientOptions {
 	}
 }
 
-func (c *client) Product(ctx context.Context, productID int64) (*Product, error) {
-	url, err := url.JoinPath(c.domain, productURL, strconv.FormatInt(productID, 10))
-	if err != nil {
-		return nil, err
+// search token starts with search-
+func WithSearchToken(searchToken string) clientOptions {
+	return func(client *client) {
+		client.searchToken = searchToken
 	}
-
-	request, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	response, err := c.httpClient.Do(request)
-	if err != nil {
-		return nil, err
-	}
-	defer func() {
-		if err := response.Body.Close(); err != nil {
-			slog.Warn("cannot close response body", "error", err)
-		}
-	}()
-
-	var product Product
-	if err := json.NewDecoder(response.Body).Decode(&product); err != nil {
-		return nil, err
-	}
-
-	return &product, nil
 }
