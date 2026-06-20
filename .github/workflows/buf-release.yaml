@@ -23,7 +23,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Run buf
-        uses: bufbuild/buf-action@8f4a1456a0ab6a1eb80ba68e53832e6fcfacc16c # v1.3.0
+        uses: bufbuild/buf-action@fd21066df7214747548607aaa45548ba2b9bc1ff # v1.4.0
         with:
           # Publishing schema changes to the BSR requires a BSR authentication token.
           token: ${{ secrets.BUF_TOKEN }}
