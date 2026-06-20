@@ -43,7 +43,7 @@ func (c *client) List(ctx context.Context, params ListParams) ([]Registry, error
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() //nolint:errcheck
 
 	slog.DebugContext(ctx, "got response", "url", url.String())
 
@@ -114,7 +114,7 @@ func (c *client) GetLastPage(ctx context.Context, params ListParams) (int, error
 	if err != nil {
 		return 0, err
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() //nolint:errcheck
 
 	doc, err := html.Parse(resp.Body)
 	if err != nil {
