@@ -1,6 +1,6 @@
 module github.com/tanamoe/urano
 
-go 1.25.7
+go 1.26
 
 require (
 	buf.build/gen/go/tanamoe/urano/connectrpc/go v1.19.1-20260322084806-7cd501360d6e.2
