@@ -26,7 +26,9 @@ func main() {
 		Handler:   mux,
 		Protocols: p,
 	}
-	s.ListenAndServe()
+	if err := s.ListenAndServe(); err != nil {
+		panic(err)
+	}
 }
 
 // withCORS adds CORS support to a Connect HTTP handler.
