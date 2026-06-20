@@ -13,22 +13,23 @@ import (
 
 const createRegistry = `-- name: CreateRegistry :one
 INSERT INTO registry (
-    registration_id, isbn, title, author, translator, print_amount, self_publish, partner
+    registration_id, isbn, title, author, translator, print_amount, self_publish, partner, registration_date
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8
+    $1, $2, $3, $4, $5, $6, $7, $8, $9
 )
-RETURNING id, registration_id, isbn, title, author, translator, print_amount, self_publish, partner
+RETURNING id, registration_id, isbn, title, author, translator, print_amount, self_publish, partner, registration_date
 `
 
 type CreateRegistryParams struct {
-	RegistrationID string
-	Isbn           pgtype.Text
-	Title          string
-	Author         pgtype.Text
-	Translator     pgtype.Text
-	PrintAmount    pgtype.Int4
-	SelfPublish    pgtype.Bool
-	Partner        pgtype.Text
+	RegistrationID   string
+	Isbn             pgtype.Text
+	Title            string
+	Author           pgtype.Text
+	Translator       pgtype.Text
+	PrintAmount      pgtype.Int4
+	SelfPublish      pgtype.Bool
+	Partner          pgtype.Text
+	RegistrationDate pgtype.Date
 }
 
 func (q *Queries) CreateRegistry(ctx context.Context, arg CreateRegistryParams) (Registry, error) {
@@ -41,6 +42,7 @@ func (q *Queries) CreateRegistry(ctx context.Context, arg CreateRegistryParams) 
 		arg.PrintAmount,
 		arg.SelfPublish,
 		arg.Partner,
+		arg.RegistrationDate,
 	)
 	var i Registry
 	err := row.Scan(
@@ -53,12 +55,13 @@ func (q *Queries) CreateRegistry(ctx context.Context, arg CreateRegistryParams) 
 		&i.PrintAmount,
 		&i.SelfPublish,
 		&i.Partner,
+		&i.RegistrationDate,
 	)
 	return i, err
 }
 
 const getRegistryByRegistrationID = `-- name: GetRegistryByRegistrationID :one
-SELECT id, registration_id, isbn, title, author, translator, print_amount, self_publish, partner FROM registry
+SELECT id, registration_id, isbn, title, author, translator, print_amount, self_publish, partner, registration_date FROM registry
 WHERE registration_id = $1 LIMIT 1
 `
 
@@ -75,6 +78,7 @@ func (q *Queries) GetRegistryByRegistrationID(ctx context.Context, registrationI
 		&i.PrintAmount,
 		&i.SelfPublish,
 		&i.Partner,
+		&i.RegistrationDate,
 	)
 	return i, err
 }

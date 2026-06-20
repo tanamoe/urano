@@ -9,13 +9,14 @@ import (
 )
 
 type Registry struct {
-	ID             pgtype.UUID
-	RegistrationID string
-	Isbn           pgtype.Text
-	Title          string
-	Author         pgtype.Text
-	Translator     pgtype.Text
-	PrintAmount    pgtype.Int4
-	SelfPublish    pgtype.Bool
-	Partner        pgtype.Text
+	ID               pgtype.UUID
+	RegistrationID   string
+	Isbn             pgtype.Text
+	Title            string
+	Author           pgtype.Text
+	Translator       pgtype.Text
+	PrintAmount      pgtype.Int4
+	SelfPublish      pgtype.Bool
+	Partner          pgtype.Text
+	RegistrationDate pgtype.Date
 }
