@@ -5,7 +5,7 @@
     self,
     nixpkgs,
   }: let
-    goVersion = 25;
+    goVersion = 26;
 
     supportedSystems = ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];
     forEachSupportedSystem = f:
@@ -34,6 +34,8 @@
           zizmor
           # https://github.com/golangci/golangci-lint
           golangci-lint
+          goose
+          sqlc
 
           # buf
           buf
