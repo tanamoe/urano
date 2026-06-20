@@ -7,7 +7,7 @@ require (
 	buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.11-20260620065239-97db60574054.1
 	connectrpc.com/connect v1.20.0
 	connectrpc.com/cors v0.1.0
-	github.com/andybalholm/cascadia v1.3.3
+	github.com/andybalholm/cascadia v1.3.4
 	github.com/jackc/pgx/v5 v5.10.0
 	github.com/pressly/goose/v3 v3.27.1
 	github.com/rs/cors v1.11.1
