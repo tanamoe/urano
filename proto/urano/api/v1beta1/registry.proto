@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package urano.api.v1beta1;
+
+import "google/type/date.proto";
+
+service RegistryService {
+  // paginated endpoint, https://google.aip.dev/158
+  rpc ListRegistry(ListRegistryRequest) returns (ListRegistryResponse) {}
+}
+
+message ListRegistryRequest {
+  string query = 1;
+
+  int32 page_size = 5;
+
+  int32 skip = 6;
+
+  // A token received from previous call, used to retrieve subsequent page.
+  // This token when used must be called with the same prior `page_size`
+  // parameters, or it will be invalid.
+  //
+  // If empty, start from the beginning.
+  //
+  // Note: Currently unused
+  string page_token = 7;
+}
+
+message ListRegistryResponse {
+  repeated Registry registries = 1;
+
+  // A token that can be sent as `page_token` to retrieve the next page.
+  // If this field is omitted, there are no subsequent pages.
+  //
+  // Note: Currently return empty
+  string next_page_token = 2;
+}
+
+message Registry {
+  string id = 1;
+
+  string registration_id = 2;
+
+  optional string isbn = 3;
+
+  string title = 4;
+
+  optional string author = 5;
+
+  optional string translator = 6;
+
+  optional int32 print_amount = 7;
+
+  optional bool self_publish = 8;
+
+  optional string partner = 9;
+
+  google.type.Date registration_date = 10;
+}
