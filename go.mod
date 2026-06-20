@@ -12,7 +12,7 @@ require (
 	github.com/pressly/goose/v3 v3.27.1
 	github.com/rs/cors v1.11.1
 	github.com/stretchr/testify v1.11.1
-	golang.org/x/net v0.55.0
+	golang.org/x/net v0.56.0
 )
 
 require (
