@@ -8,7 +8,8 @@ CREATE TABLE registry (
     translator text,
     print_amount integer,
     self_publish boolean,
-    partner text
+    partner text,
+    registration_date date
 );
 
 CREATE INDEX registry_registration_id_index ON registry (registration_id);
