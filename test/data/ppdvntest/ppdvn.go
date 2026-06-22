@@ -68,5 +68,8 @@ func serveHTML(w http.ResponseWriter, path string) {
 		panic(err)
 	}
 
-	io.Copy(w, file)
+	_, err = io.Copy(w, file)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
 }
