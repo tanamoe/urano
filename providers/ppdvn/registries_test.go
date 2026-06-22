@@ -265,3 +265,51 @@ func TestList(t *testing.T) {
 		})
 	}
 }
+
+func TestGetLastPage(t *testing.T) {
+	ts := ppdvntest.NewServer()
+	t.Cleanup(func() {
+		ts.Close()
+	})
+
+	tests := []struct {
+		name         string
+		query        *string
+		page         *int
+		expectedPage int
+	}{{
+		name:         "SinglePage",
+		query:        new("CLAMP"),
+		expectedPage: 1,
+	}, {
+		name:         "NoRegistries",
+		query:        new("random"),
+		expectedPage: 0,
+	}, {
+		name:         "MultiplePageMultipleRegistries",
+		query:        new("Card Captor Sakura"),
+		page:         new(1),
+		expectedPage: 9,
+	}, {
+		name:         "MultiplePageMultipleRegistriesWithPartner",
+		query:        new("Cửu Long"),
+		page:         new(1),
+		expectedPage: 2,
+	}}
+
+	client, err := NewClient(WithHTTPClient(ts.Client()), WithDomain(ts.URL))
+	require.NoError(t, err)
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			lastPage, err := client.GetLastPage(t.Context(), ListParams{
+				Query: test.query,
+				Page:  test.page,
+			})
+			require.NoError(t, err)
+
+			assert.Equal(t, test.expectedPage, lastPage)
+		})
+	}
+
+}
