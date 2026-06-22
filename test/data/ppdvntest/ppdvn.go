@@ -54,7 +54,7 @@ func registriesHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	if strings.Contains(query, "Card Captor Sakura") && pageInt >= 1 && pageInt <= 10 {
+	if strings.Contains(query, "Card Captor Sakura") && pageInt >= 1 && pageInt <= 9 {
 		serveHTML(w, fmt.Sprintf("ccs-%d.html", pageInt))
 		return
 	}
