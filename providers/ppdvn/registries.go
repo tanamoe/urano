@@ -12,7 +12,6 @@ import (
 )
 
 const (
-	Host           = "ppdvn.gov.vn"
 	RegistriesPath = "/web/guest/ke-hoach-xuat-ban"
 
 	dateFormat = "02/01/2006"
@@ -22,17 +21,26 @@ const (
 
 func (c *client) List(ctx context.Context, params ListParams) ([]Registry, error) {
 	q := url.Values{}
-	q.Add("p", strconv.Itoa(params.Page))
-	q.Add("query", params.Query)
-	q.Add("bat_dau", params.StartDate.Format(dateFormat))
-	q.Add("ket_thuc", params.EndDate.Format(dateFormat))
 
-	url := url.URL{
-		Scheme:   "https",
-		Host:     Host,
-		Path:     RegistriesPath,
-		RawQuery: q.Encode(),
+	if params.Query != nil {
+		q.Add("query", *params.Query)
 	}
+
+	if params.Page != nil {
+		q.Add("p", strconv.Itoa(*params.Page))
+	}
+
+	if params.StartDate != nil {
+		q.Add("bat_dau", params.StartDate.Format(dateFormat))
+	}
+
+	if params.EndDate != nil {
+		q.Add("ket_thuc", params.EndDate.Format(dateFormat))
+	}
+
+	url := c.baseURL
+	url.Path = RegistriesPath
+	url.RawQuery = q.Encode()
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url.String(), nil)
 	if err != nil {
@@ -93,17 +101,26 @@ func parseTable(node *html.Node) ([]Registry, error) {
 
 func (c *client) GetLastPage(ctx context.Context, params ListParams) (int, error) {
 	q := url.Values{}
-	q.Add("p", strconv.Itoa(params.Page))
-	q.Add("query", params.Query)
-	q.Add("bat_dau", params.StartDate.Format(dateFormat))
-	q.Add("ket_thuc", params.EndDate.Format(dateFormat))
 
-	url := url.URL{
-		Scheme:   "https",
-		Host:     Host,
-		Path:     RegistriesPath,
-		RawQuery: q.Encode(),
+	if params.Query != nil {
+		q.Add("query", *params.Query)
 	}
+
+	if params.Page != nil {
+		q.Add("p", strconv.Itoa(*params.Page))
+	}
+
+	if params.StartDate != nil {
+		q.Add("bat_dau", params.StartDate.Format(dateFormat))
+	}
+
+	if params.EndDate != nil {
+		q.Add("ket_thuc", params.EndDate.Format(dateFormat))
+	}
+
+	url := c.baseURL
+	url.Path = RegistriesPath
+	url.RawQuery = q.Encode()
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url.String(), nil)
 	if err != nil {
