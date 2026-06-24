@@ -3,8 +3,8 @@ module github.com/tanamoe/urano
 go 1.26
 
 require (
-	buf.build/gen/go/tanamoe/urano/connectrpc/go v1.20.0-20260620065239-97db60574054.1
-	buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.11-20260620065239-97db60574054.1
+	buf.build/gen/go/tanamoe/urano/connectrpc/go v1.20.0-20260620142306-39543c167970.1
+	buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.11-20260620142306-39543c167970.1
 	connectrpc.com/connect v1.20.0
 	connectrpc.com/cors v0.1.0
 	github.com/andybalholm/cascadia v1.3.4
@@ -28,6 +28,7 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/sync v0.21.0 // indirect
 	golang.org/x/text v0.38.0 // indirect
+	google.golang.org/genproto v0.0.0-20260622175928-b703f567277d // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	modernc.org/sqlite v1.52.0 // indirect
