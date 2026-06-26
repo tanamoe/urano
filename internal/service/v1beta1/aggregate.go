@@ -10,6 +10,7 @@ import (
 	api "buf.build/gen/go/tanamoe/urano/protocolbuffers/go/urano/api/v1beta1"
 	types "buf.build/gen/go/tanamoe/urano/protocolbuffers/go/urano/types/v1beta1"
 	"connectrpc.com/connect"
+	"github.com/tanamoe/urano/internal/models"
 	"github.com/tanamoe/urano/providers/fahasa"
 )
 
@@ -18,12 +19,14 @@ var _ apiconnect.AggregateServiceHandler = (*aggregate)(nil)
 type aggregate struct {
 	apiconnect.UnimplementedAggregateServiceHandler
 
+	repo         *models.Queries
 	fahasaClient fahasa.Client
 }
 
-func NewAggregateServer() apiconnect.AggregateServiceHandler {
-	fahasaClient := fahasa.NewClient()
+func NewAggregateServer(repo *models.Queries, searchToken string) apiconnect.AggregateServiceHandler {
+	fahasaClient := fahasa.NewClient(fahasa.WithSearchToken(searchToken))
 	return &aggregate{
+		repo:         repo,
 		fahasaClient: fahasaClient,
 	}
 }
