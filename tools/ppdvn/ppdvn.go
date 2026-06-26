@@ -50,7 +50,7 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	for d := from; d.After(to) == false; d = d.AddDate(0, 0, 1) {
+	for d := from; !d.After(to); d = d.AddDate(0, 0, 1) {
 		last, err := client.GetLastPage(ctx, ppdvn.ListParams{
 			Page:      new(1),
 			StartDate: &d,
