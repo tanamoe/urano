@@ -1,44 +1,43 @@
 package main
 
 import (
-	"net/http"
+	"context"
+	"log"
+	"log/slog"
+	"os"
+	"os/signal"
+	"time"
 
-	"buf.build/gen/go/tanamoe/urano/connectrpc/go/urano/api/v1beta1/apiv1beta1connect"
-	connectcors "connectrpc.com/cors"
-	"github.com/rs/cors"
-	"github.com/tanamoe/urano/internal/service/v1beta1"
+	"github.com/tanamoe/urano/internal/app"
+	"github.com/tanamoe/urano/internal/config"
 )
 
 func main() {
-	aggregate := v1beta1.NewAggregateServer()
+	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
+	defer cancel()
 
-	mux := http.NewServeMux()
-	path, handler := apiv1beta1connect.NewAggregateServiceHandler(
-		aggregate,
-	)
-	handler = withCORS(handler)
-	mux.Handle(path, handler)
-	p := new(http.Protocols)
-	p.SetHTTP1(true)
-	p.SetUnencryptedHTTP2(true)
-	s := http.Server{
-		Addr:      "0.0.0.0:8080",
-		Handler:   mux,
-		Protocols: p,
+	cfg, err := config.Load()
+	if err != nil {
+		log.Panicln(err)
 	}
-	if err := s.ListenAndServe(); err != nil {
-		panic(err)
-	}
-}
 
-// withCORS adds CORS support to a Connect HTTP handler.
-func withCORS(connectHandler http.Handler) http.Handler {
-	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3000"}, // replace with your domain
-		AllowedMethods: connectcors.AllowedMethods(),
-		AllowedHeaders: connectcors.AllowedHeaders(),
-		ExposedHeaders: connectcors.ExposedHeaders(),
-		MaxAge:         7200, // 2 hours in seconds
-	})
-	return c.Handler(connectHandler)
+	a, err := app.New(ctx, cfg)
+	if err != nil {
+		log.Panicln(err)
+	}
+
+	go func() {
+		<-ctx.Done()
+		shutdownCtx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer cancel()
+
+		slog.InfoContext(ctx, "gracefully shutting down")
+		if err := a.Stop(shutdownCtx); err != nil {
+			slog.ErrorContext(ctx, "failed to gracefully shutdown", "error", err)
+		}
+	}()
+
+	if err := a.Serve(ctx); err != nil {
+		slog.ErrorContext(ctx, "cannot serve", "error", err)
+	}
 }
