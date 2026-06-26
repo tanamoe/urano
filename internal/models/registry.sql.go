@@ -82,3 +82,44 @@ func (q *Queries) GetRegistryByRegistrationID(ctx context.Context, registrationI
 	)
 	return i, err
 }
+
+const listRegistry = `-- name: ListRegistry :many
+SELECT id, registration_id, isbn, title, author, translator, print_amount, self_publish, partner, registration_date FROM registry
+LIMIT $1 OFFSET $2
+`
+
+type ListRegistryParams struct {
+	Limit  int32
+	Offset int32
+}
+
+func (q *Queries) ListRegistry(ctx context.Context, arg ListRegistryParams) ([]Registry, error) {
+	rows, err := q.db.Query(ctx, listRegistry, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Registry
+	for rows.Next() {
+		var i Registry
+		if err := rows.Scan(
+			&i.ID,
+			&i.RegistrationID,
+			&i.Isbn,
+			&i.Title,
+			&i.Author,
+			&i.Translator,
+			&i.PrintAmount,
+			&i.SelfPublish,
+			&i.Partner,
+			&i.RegistrationDate,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
