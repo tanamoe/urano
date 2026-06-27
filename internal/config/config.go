@@ -14,6 +14,9 @@ type Config struct {
 type AppConfig struct {
 	ListenAddress  string   `mapstructure:"listenAddress"`
 	AllowedOrigins []string `mapstructure:"allowedOrigins"`
+
+	StatePath      string `mapstructure:"statePath"`
+	IndexBatchSize int32  `mapstructure:"indexBatchSize"`
 }
 
 type DatabaseConfig struct {
