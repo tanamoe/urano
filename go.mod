@@ -10,7 +10,7 @@ require (
 	connectrpc.com/otelconnect v0.9.0
 	github.com/andybalholm/cascadia v1.3.4
 	github.com/jackc/pgx/v5 v5.10.0
-	github.com/pressly/goose/v3 v3.27.1
+	github.com/pressly/goose/v3 v3.27.2
 	github.com/rs/cors v1.11.1
 	github.com/spf13/pflag v1.0.10
 	github.com/spf13/viper v1.21.0
@@ -83,5 +83,5 @@ require (
 	google.golang.org/grpc v1.81.1 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	modernc.org/sqlite v1.52.0 // indirect
+	modernc.org/sqlite v1.53.0 // indirect
 )
