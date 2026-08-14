@@ -2,6 +2,8 @@ buf.build/gen/go/tanamoe/urano/connectrpc/go v1.20.0-20260620142306-39543c167970
 buf.build/gen/go/tanamoe/urano/connectrpc/go v1.20.0-20260620142306-39543c167970.1/go.mod h1:IiKQX2Spylclk/UNNGokCH5VBHoTPHPQ5qJKQNWY2kQ=
 buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.11-20260620142306-39543c167970.1 h1:3Ija+zN5mOR//xg5ODNaAhLz3UPdrdMfh/WIkUuJOc8=
 buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.11-20260620142306-39543c167970.1/go.mod h1:z9I0KyyIJivi6u27FGLCaGjI4D9Vot9yE5p2cq6HIyk=
+buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.12-20260620142306-39543c167970.1 h1:YROfMZ7tuZTC2ntmMpLry9gAzBMHuo1f8Qgy8ToVIew=
+buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.12-20260620142306-39543c167970.1/go.mod h1:cH27ylnyi0dWqF3V/+UH0nmctxo9ffOk0jQ1pfBeq+8=
 connectrpc.com/connect v1.20.0 h1:6TNDAB+WeNd2uolWNlYczB5E0KNNaVMNUEx8JEUsPmQ=
 connectrpc.com/connect v1.20.0/go.mod h1:A2ygJrukXwWy32vkCAAHNVguZrqZ+jeZ9rGRnGR4dN4=
 connectrpc.com/cors v0.1.0 h1:f3gTXJyDZPrDIZCQ567jxfD9PAIpopHiRDnJRt3QuOQ=
@@ -211,6 +213,8 @@ google.golang.org/grpc v1.82.1 h1:NnAxzGRA0677vCa4BUkOAnO5+FfQqVl9iUXeD0IqcGE=
 google.golang.org/grpc v1.82.1/go.mod h1:yzTZ1TB1Z3SG+LIYaI+WiE8D5+PZ3ArnrSp8zF3+/ZA=
 google.golang.org/protobuf v1.36.11 h1:fV6ZwhNocDyBLK0dj+fg8ektcVegBBuEolpbTQyBNVE=
 google.golang.org/protobuf v1.36.11/go.mod h1:HTf+CrKn2C3g5S8VImy6tdcUvCska2kB7j23XfzDpco=
+google.golang.org/protobuf v1.36.12 h1:pJOKDDOyeXErUroCihFAd5LQuwXBSpVnKGrj5o/fwxc=
+google.golang.org/protobuf v1.36.12/go.mod h1:HTf+CrKn2C3g5S8VImy6tdcUvCska2kB7j23XfzDpco=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c h1:Hei/4ADfdWqJk1ZMxUNpqntNwaWcugrBjAiHlqqRiVk=
 gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c/go.mod h1:JHkPIbrfpd72SG/EVd6muEfDQjcINNoR0C8j2r3qZ4Q=
