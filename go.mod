@@ -4,7 +4,7 @@ go 1.26
 
 require (
 	buf.build/gen/go/tanamoe/urano/connectrpc/go v1.20.0-20260620142306-39543c167970.1
-	buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.11-20260620142306-39543c167970.1
+	buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.12-20260620142306-39543c167970.1
 	connectrpc.com/connect v1.20.0
 	connectrpc.com/cors v0.1.0
 	connectrpc.com/otelconnect v0.9.0
@@ -81,7 +81,7 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20260807164820-c8921c73eeea // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260807164820-c8921c73eeea // indirect
 	google.golang.org/grpc v1.82.1 // indirect
-	google.golang.org/protobuf v1.36.11 // indirect
+	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	modernc.org/sqlite v1.53.0 // indirect
 )
