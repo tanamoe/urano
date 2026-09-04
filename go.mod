@@ -8,7 +8,7 @@ require (
 	connectrpc.com/connect v1.20.0
 	connectrpc.com/cors v0.1.0
 	connectrpc.com/otelconnect v0.9.0
-	github.com/andybalholm/cascadia v1.3.4
+	github.com/andybalholm/cascadia v1.3.5
 	github.com/jackc/pgx/v5 v5.10.0
 	github.com/pressly/goose/v3 v3.27.3
 	github.com/rs/cors v1.11.1
