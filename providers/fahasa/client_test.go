@@ -25,7 +25,7 @@ func TestProduct(t *testing.T) {
 		assert.NoError(err)
 	}))
 
-	client := NewClient(WithDomain(srv.URL))
+	client := NewClient(WithRestDomain(srv.URL))
 
 	product, err := client.Product(t.Context(), 1)
 	assert.NoError(err)

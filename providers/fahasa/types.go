@@ -142,7 +142,7 @@ type Product struct {
 	EnableVoteProduct       string               `json:"enableVoteProduct"`
 	EnableFlashsale         string               `json:"enableFlashsale"`
 	EnableBuffetCombo       string               `json:"enableBuffetCombo"`
-	Promotion               ProductPromotion     `json:"promotion"`
+	Promotion               ProductPromotion     `json:"-"`
 	MaxSaleQuantity         *int                 `json:"max_sale_qty"`
 	MinimumQuantity         int                  `json:"min_qty"`
 	SoldQuantity            string               `json:"sold_qty"`
@@ -160,7 +160,7 @@ type ProductAttribute struct {
 }
 
 type ProductGalleryImage struct {
-	ValueID  int64  `json:"value_id"`
+	ValueID  string `json:"-"`
 	File     string `json:"file"`
 	Label    string `json:"label"`
 	Position int    `json:"position"`

@@ -7,7 +7,7 @@ import (
 )
 
 func NewRegistryResponse(registry models.Registry) *api.Registry {
-	r := &api.Registry{
+	builder := &api.Registry_builder{
 		Id:             registry.ID.String(),
 		RegistrationId: registry.RegistrationID,
 		Title:          registry.Title,
@@ -19,28 +19,28 @@ func NewRegistryResponse(registry models.Registry) *api.Registry {
 	}
 
 	if registry.Isbn.Valid {
-		r.Isbn = &registry.Isbn.String
+		builder.Isbn = &registry.Isbn.String
 	}
 
 	if registry.Author.Valid {
-		r.Author = &registry.Author.String
+		builder.Author = &registry.Author.String
 	}
 
 	if registry.Translator.Valid {
-		r.Translator = &registry.Translator.String
+		builder.Translator = &registry.Translator.String
 	}
 
 	if registry.PrintAmount.Valid {
-		r.PrintAmount = &registry.PrintAmount.Int32
+		builder.PrintAmount = &registry.PrintAmount.Int32
 	}
 
 	if registry.SelfPublish.Valid {
-		r.SelfPublish = &registry.SelfPublish.Bool
+		builder.SelfPublish = &registry.SelfPublish.Bool
 	}
 
 	if registry.Partner.Valid {
-		r.Partner = &registry.Partner.String
+		builder.Partner = &registry.Partner.String
 	}
 
-	return r
+	return builder.Build()
 }

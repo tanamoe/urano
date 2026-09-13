@@ -15,7 +15,7 @@ const (
 )
 
 func (c *client) ListByCategory(ctx context.Context, params ListByCategoryParams) (*CategoryProducts, error) {
-	path, err := url.JoinPath(c.domain, categoryPath)
+	path, err := url.JoinPath(c.restDomain, categoryPath)
 	if err != nil {
 		return nil, err
 	}

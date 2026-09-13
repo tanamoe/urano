@@ -7,8 +7,9 @@ import (
 )
 
 const (
-	defaultDomain    = "https://rest.fahasa.com"
-	defaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
+	defaultRestDomain = "https://rest.fahasa.com"
+	defaultBaseDomain = "https://www.fahasa.com"
+	defaultUserAgent  = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
 )
 
 type Client interface {
@@ -25,7 +26,8 @@ type ListByCategoryParams struct {
 }
 
 type client struct {
-	domain      string
+	restDomain  string
+	baseDomain  string
 	searchToken string
 
 	httpClient *http.Client
@@ -35,7 +37,8 @@ type clientOptions = func(client *client)
 
 func NewClient(options ...clientOptions) Client {
 	client := &client{
-		domain: defaultDomain,
+		restDomain: defaultRestDomain,
+		baseDomain: defaultBaseDomain,
 		httpClient: &http.Client{
 			Transport: &http.Transport{
 				TLSNextProto: map[string]func(string, *tls.Conn) http.RoundTripper{},
@@ -50,9 +53,15 @@ func NewClient(options ...clientOptions) Client {
 	return client
 }
 
-func WithDomain(domain string) clientOptions {
+func WithRestDomain(domain string) clientOptions {
 	return func(client *client) {
-		client.domain = domain
+		client.restDomain = domain
+	}
+}
+
+func WithBaseDomain(domain string) clientOptions {
+	return func(client *client) {
+		client.baseDomain = domain
 	}
 }
 

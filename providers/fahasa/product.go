@@ -16,7 +16,7 @@ const (
 
 func (c *client) Product(ctx context.Context, productID int64) (*Product, error) {
 	id := strconv.FormatInt(productID, 10)
-	path, err := url.JoinPath(c.domain, productPath, id)
+	path, err := url.JoinPath(c.restDomain, productPath, id)
 	if err != nil {
 		return nil, err
 	}
