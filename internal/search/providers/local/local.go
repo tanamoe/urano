@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	RegistryIndexName = "registry.bleve"
+	RegistryIndexFileName = "registry.bleve"
 )
 
 type bleveProvider struct {
@@ -26,10 +26,12 @@ type bleveProvider struct {
 }
 
 func NewBleveProvider(cfg config.AppConfig, repo *models.Queries) (search.Search, error) {
-	registryPath := path.Join(cfg.StatePath, RegistryIndexName)
+	registryPath := path.Join(cfg.StatePath, RegistryIndexFileName)
 
+	// attempt to create new path
 	registryIndex, err := bleve.New(registryPath, bleve.NewIndexMapping())
-	if errors.Is(err, bleve.ErrorIndexPathExists) {
+	if errors.Is(err, bleve.ErrorIndexPathExists) { // if path exists, open it instead
+		slog.Info("registry index already exists, attempt to load it...")
 		registryIndex, err = bleve.Open(registryPath)
 	}
 	if err != nil {
@@ -54,10 +56,10 @@ func (p *bleveProvider) Stop(ctx context.Context) error {
 func (p *bleveProvider) IndexAllRegistry(ctx context.Context) error {
 	var count int32
 
-	for offset := int32(0); ; offset += p.cfg.IndexBatchSize {
+	for offset := 0; ; offset += p.cfg.IndexBatchSize {
 		registries, err := p.repo.ListRegistry(ctx, models.ListRegistryParams{
-			Limit:  p.cfg.IndexBatchSize,
-			Offset: offset,
+			Limit:  int32(p.cfg.IndexBatchSize),
+			Offset: int32(offset),
 		})
 		if err != nil {
 			return err
@@ -77,7 +79,7 @@ func (p *bleveProvider) IndexAllRegistry(ctx context.Context) error {
 			return err
 		}
 
-		if int32(len(registries)) < p.cfg.IndexBatchSize {
+		if len(registries) < p.cfg.IndexBatchSize {
 			break
 		}
 	}
@@ -115,6 +117,7 @@ func (p *bleveProvider) SearchRegistry(ctx context.Context, request search.Searc
 	return hits, nil
 }
 
+// TODO: query building could be improved
 func buildSearchRegistryQuery(request search.SearchRegistryRequest) (query.Query, error) {
 	queries := []query.Query{}
 

@@ -15,8 +15,10 @@ type AppConfig struct {
 	ListenAddress  string   `mapstructure:"listenAddress"`
 	AllowedOrigins []string `mapstructure:"allowedOrigins"`
 
-	StatePath      string `mapstructure:"statePath"`
-	IndexBatchSize int32  `mapstructure:"indexBatchSize"`
+	// StatePath defines the path where the app will store its state
+	StatePath string `mapstructure:"statePath"`
+	// IndexBatchSize defines the batch size to perform search indexing
+	IndexBatchSize int `mapstructure:"indexBatchSize"`
 }
 
 type DatabaseConfig struct {
