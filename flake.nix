@@ -5,7 +5,7 @@
     self,
     nixpkgs,
   }: let
-    goVersion = 26;
+    goVersion = 27;
 
     supportedSystems = ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];
     forEachSupportedSystem = f:
