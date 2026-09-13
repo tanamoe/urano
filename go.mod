@@ -18,10 +18,10 @@ require (
 	go.opentelemetry.io/contrib/bridges/otelslog v0.20.0
 	go.opentelemetry.io/contrib/exporters/autoexport v0.70.0
 	go.opentelemetry.io/otel v1.46.0
-	go.opentelemetry.io/otel/log v0.21.0
-	go.opentelemetry.io/otel/sdk v1.45.0
-	go.opentelemetry.io/otel/sdk/log v0.21.0
-	go.opentelemetry.io/otel/sdk/metric v1.45.0
+	go.opentelemetry.io/otel/log v0.22.0
+	go.opentelemetry.io/otel/sdk v1.46.0
+	go.opentelemetry.io/otel/sdk/log v0.22.0
+	go.opentelemetry.io/otel/sdk/metric v1.46.0
 	golang.org/x/net v0.58.0
 	google.golang.org/genproto v0.0.0-20260810153831-ec0a7760b754
 )
