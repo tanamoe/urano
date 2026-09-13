@@ -1,5 +1,7 @@
 buf.build/gen/go/tanamoe/urano/connectrpc/go v1.20.0-20260620142306-39543c167970.1 h1:X12eJhffdvap9hKe3UGpBVtJ2/cKCnOuPrUYEFdhofs=
 buf.build/gen/go/tanamoe/urano/connectrpc/go v1.20.0-20260620142306-39543c167970.1/go.mod h1:IiKQX2Spylclk/UNNGokCH5VBHoTPHPQ5qJKQNWY2kQ=
+buf.build/gen/go/tanamoe/urano/connectrpc/go v1.21.0-20260620142306-39543c167970.1 h1:Vj/99gdtBruTJu/wC5ubnZRqRevOCuNIePB7E0VHywg=
+buf.build/gen/go/tanamoe/urano/connectrpc/go v1.21.0-20260620142306-39543c167970.1/go.mod h1:/joOblKLbpelzBTbIcw1XyvphLbzPVnZsv2w/xzxOBU=
 buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.11-20260620142306-39543c167970.1 h1:3Ija+zN5mOR//xg5ODNaAhLz3UPdrdMfh/WIkUuJOc8=
 buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.11-20260620142306-39543c167970.1/go.mod h1:z9I0KyyIJivi6u27FGLCaGjI4D9Vot9yE5p2cq6HIyk=
 buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.12-20260620142306-39543c167970.1 h1:YROfMZ7tuZTC2ntmMpLry9gAzBMHuo1f8Qgy8ToVIew=
@@ -8,6 +10,8 @@ buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.12-20260620142306-39543c
 buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.12-20260620142306-39543c167970.2/go.mod h1:cH27ylnyi0dWqF3V/+UH0nmctxo9ffOk0jQ1pfBeq+8=
 connectrpc.com/connect v1.20.0 h1:6TNDAB+WeNd2uolWNlYczB5E0KNNaVMNUEx8JEUsPmQ=
 connectrpc.com/connect v1.20.0/go.mod h1:A2ygJrukXwWy32vkCAAHNVguZrqZ+jeZ9rGRnGR4dN4=
+connectrpc.com/connect v1.21.0 h1:LhqSJt7jHf5NJBo9Jq/t/9FjcYAideif0mg+qe2jCUs=
+connectrpc.com/connect v1.21.0/go.mod h1:A2ygJrukXwWy32vkCAAHNVguZrqZ+jeZ9rGRnGR4dN4=
 connectrpc.com/cors v0.1.0 h1:f3gTXJyDZPrDIZCQ567jxfD9PAIpopHiRDnJRt3QuOQ=
 connectrpc.com/cors v0.1.0/go.mod h1:v8SJZCPfHtGH1zsm+Ttajpozd4cYIUryl4dFB6QEpfg=
 connectrpc.com/otelconnect v0.9.0 h1:NggB3pzRC3pukQWaYbRHJulxuXvmCKCKkQ9hbrHAWoA=
