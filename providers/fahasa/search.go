@@ -2,23 +2,30 @@ package fahasa
 
 import (
 	"context"
-	"encoding/json"
+	"encoding/json/jsontext"
+	"encoding/json/v2"
 	"errors"
 	"fmt"
 	"log/slog"
 	"net/http"
 	"net/http/httputil"
+	"net/url"
 	"strings"
 )
 
 const (
-	searchPath = "https://www.fahasa.com/api/elsearch/api/as/v1/engines/fhs-production-v2/search.json"
+	searchPath = "/api/elsearch/api/as/v1/engines/fhs-production-v2/search.json"
 )
 
 func (c *client) Search(ctx context.Context, query string) (*SearchResponse, error) {
 	r := strings.NewReader(fmt.Sprintf(`{"query": "%s", "sort": { "created_at": "desc" }, "page": { "size": 48, "current": 1 }}`, query))
 
-	request, err := http.NewRequestWithContext(ctx, http.MethodPost, searchPath, r)
+	path, err := url.JoinPath(c.baseDomain, searchPath)
+	if err != nil {
+		return nil, err
+	}
+
+	request, err := http.NewRequestWithContext(ctx, http.MethodPost, path, r)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +52,8 @@ func (c *client) Search(ctx context.Context, query string) (*SearchResponse, err
 	}
 
 	var search SearchResponse
-	if err := json.NewDecoder(response.Body).Decode(&search); err != nil {
+	decoder := jsontext.NewDecoder(response.Body)
+	if err := json.UnmarshalDecode(decoder, &search); err != nil {
 		return nil, err
 	}
 
