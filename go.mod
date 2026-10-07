@@ -6,6 +6,7 @@ require (
 	buf.build/gen/go/tanamoe/urano/connectrpc/go v1.21.0-20260620142306-39543c167970.1
 	buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.12-20260620142306-39543c167970.2
 	connectrpc.com/connect v1.21.0
+	connectrpc.com/connect/v2 v2.0.0
 	connectrpc.com/cors v0.1.0
 	connectrpc.com/otelconnect v0.9.0
 	github.com/andybalholm/cascadia v1.3.5
