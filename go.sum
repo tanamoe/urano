@@ -2,6 +2,7 @@ buf.build/gen/go/tanamoe/urano/connectrpc/go v1.20.0-20260620142306-39543c167970
 buf.build/gen/go/tanamoe/urano/connectrpc/go v1.20.0-20260620142306-39543c167970.1/go.mod h1:IiKQX2Spylclk/UNNGokCH5VBHoTPHPQ5qJKQNWY2kQ=
 buf.build/gen/go/tanamoe/urano/connectrpc/go v1.21.0-20260620142306-39543c167970.1 h1:Vj/99gdtBruTJu/wC5ubnZRqRevOCuNIePB7E0VHywg=
 buf.build/gen/go/tanamoe/urano/connectrpc/go v1.21.0-20260620142306-39543c167970.1/go.mod h1:/joOblKLbpelzBTbIcw1XyvphLbzPVnZsv2w/xzxOBU=
+buf.build/gen/go/tanamoe/urano/connectrpc/go/v2 v2.0.0-20260620142306-39543c167970.1/go.mod h1:wUxT918svCGb08PU78rmIzpQ1SUPjXh7HNwdV7JOajQ=
 buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.11-20260620142306-39543c167970.1 h1:3Ija+zN5mOR//xg5ODNaAhLz3UPdrdMfh/WIkUuJOc8=
 buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.11-20260620142306-39543c167970.1/go.mod h1:z9I0KyyIJivi6u27FGLCaGjI4D9Vot9yE5p2cq6HIyk=
 buf.build/gen/go/tanamoe/urano/protocolbuffers/go v1.36.12-20260620142306-39543c167970.1 h1:YROfMZ7tuZTC2ntmMpLry9gAzBMHuo1f8Qgy8ToVIew=
